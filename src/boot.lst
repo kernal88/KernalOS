@@ -1,0 +1,17 @@
+     1                                  org 0x7c00
+     2                                  	
+     3 00000000 E90C00                  	jmp start
+     4                                  	
+     5                                  msgstr:
+     6 00000003 48656C6C6F20576F72-     	db 'Hello World!'
+     7 0000000C 6C6421             
+     8                                  	
+     9                                  start:
+    10 0000000F FA                      	cli
+    11                                  	
+    12                                  	
+    13                                  	
+    14 00000010 00<rept>                	times 510-($-$$) db 0
+    15 000001FE 55                      	db 0x55
+    16 000001FF AA                      	db 0xaa
+    17                                  	

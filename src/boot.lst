@@ -9,9 +9,10 @@
      9                                  start:
     10 0000000F FA                      	cli
     11                                  	
-    12                                  	
+    12                                  	;show Hello World
     13                                  	
-    14 00000010 00<rept>                	times 510-($-$$) db 0
-    15 000001FE 55                      	db 0x55
-    16 000001FF AA                      	db 0xaa
-    17                                  	
+    14                                  	
+    15                                  	
+    16 00000010 00<rept>                	times 510-($-$$) db 0
+    17 000001FE 55AA                    	db 0x55, 0xaa
+    18                                  	

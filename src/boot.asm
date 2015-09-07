@@ -16,6 +16,7 @@ start:
 	mov dh,24
 	mov dl,79
 	int 0x10
+	
 	;show Hello World
 	mov ax,0x0000
 	mov es,ax
@@ -26,8 +27,11 @@ start:
 	mov bl,0x07
 	mov cx,0x000c
 	mov dx,0x0000
-    int 0x10
-
+	int 0x10
+showstring:
+	ret
+regdump:
+	ret
 loop:
     hlt
     jmp loop

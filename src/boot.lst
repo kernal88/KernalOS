@@ -8,11 +8,30 @@
      8                                  	
      9                                  start:
     10 0000000F FA                      	cli
-    11                                  	
-    12                                  	;show Hello World
-    13                                  	
-    14                                  	
-    15                                  	
-    16 00000010 00<rept>                	times 510-($-$$) db 0
-    17 000001FE 55AA                    	db 0x55, 0xaa
-    18                                  	
+    11                                  	;clear screen
+    12 00000010 B406                    	mov ah,0x06
+    13 00000012 B000                    	mov al,0x00
+    14 00000014 B707                    	mov bh,0x07
+    15 00000016 B90000                  	mov cx,0x0000
+    16 00000019 B618                    	mov dh,24
+    17 0000001B B24F                    	mov dl,79
+    18 0000001D CD10                    	int 0x10
+    19                                  	;show Hello World
+    20 0000001F B80000                  	mov ax,0x0000
+    21 00000022 8EC0                    	mov es,ax
+    22 00000024 BD[0300]                	mov bp,msgstr
+    23 00000027 B413                    	mov ah,0x13
+    24 00000029 B001                    	mov al,0x01
+    25 0000002B B700                    	mov bh,0x00
+    26 0000002D B307                    	mov bl,0x07
+    27 0000002F B90C00                  	mov cx,0x000c
+    28 00000032 BA0000                  	mov dx,0x0000
+    29 00000035 CD10                        int 0x10
+    30                                  
+    31                                  loop:
+    32 00000037 F4                          hlt
+    33 00000038 E9FCFF                      jmp loop
+    34                                  
+    35 0000003B 00<rept>                	times 510-($-$$) db 0
+    36 000001FE 55AA                    	db 0x55, 0xaa
+    37                                  	

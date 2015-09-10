@@ -8,30 +8,77 @@
      8                                  	
      9                                  start:
     10 0000000F FA                      	cli
-    11                                  	;clear screen
-    12 00000010 B406                    	mov ah,0x06
-    13 00000012 B000                    	mov al,0x00
-    14 00000014 B707                    	mov bh,0x07
-    15 00000016 B90000                  	mov cx,0x0000
-    16 00000019 B618                    	mov dh,24
-    17 0000001B B24F                    	mov dl,79
-    18 0000001D CD10                    	int 0x10
-    19                                  	;show Hello World
-    20 0000001F B80000                  	mov ax,0x0000
-    21 00000022 8EC0                    	mov es,ax
-    22 00000024 BD[0300]                	mov bp,msgstr
-    23 00000027 B413                    	mov ah,0x13
-    24 00000029 B001                    	mov al,0x01
-    25 0000002B B700                    	mov bh,0x00
-    26 0000002D B307                    	mov bl,0x07
-    27 0000002F B90C00                  	mov cx,0x000c
-    28 00000032 BA0000                  	mov dx,0x0000
-    29 00000035 CD10                        int 0x10
-    30                                  
-    31                                  loop:
-    32 00000037 F4                          hlt
-    33 00000038 E9FCFF                      jmp loop
-    34                                  
-    35 0000003B 00<rept>                	times 510-($-$$) db 0
-    36 000001FE 55AA                    	db 0x55, 0xaa
-    37                                  	
+    11                                  	
+    12                                  	;set up stack
+    13 00000010 B80000                  	mov ax,0x0000
+    14 00000013 8ED0                    	mov ss,ax
+    15 00000015 B8007C                  	mov ax,0x7c00
+    16 00000018 89C4                    	mov sp,ax
+    17 0000001A B8006C                  	mov ax,0x6c00
+    18 0000001D 89C5                    	mov bp,ax
+    19                                  	
+    20                                  	;clear screen
+    21 0000001F B406                    	mov ah,0x06
+    22 00000021 B000                    	mov al,0x00
+    23 00000023 B707                    	mov bh,0x07
+    24 00000025 B90000                  	mov cx,0x0000
+    25 00000028 B618                    	mov dh,24
+    26 0000002A B24F                    	mov dl,79
+    27 0000002C CD10                    	int 0x10
+    28                                  	
+    29                                  	;show Hello World!
+    30 0000002E B80000                  	mov ax, 0x0000
+    31 00000031 8EC0                    	mov es, ax
+    32 00000033 BD[0300]                	mov bp, msgstr
+    33 00000036 8EC0                    	mov es, ax
+    34 00000038 B90C00                  	mov cx, 0x000c
+    35 0000003B E80300                  	call showstring
+    36                                  	
+    37 0000003E E91C00                  	jmp loop
+    38                                  	
+    39                                  ;show string   ax= str base address ; bp= str offset address cx=char num
+    40                                  showstring:
+    41 00000041 B413                    	mov ah,0x13
+    42 00000043 B001                    	mov al,0x01
+    43 00000045 B700                    	mov bh,0x00
+    44 00000047 B307                    	mov bl,0x07
+    45 00000049 BA0000                  	mov dx,0x0000
+    46 0000004C CD10                    	int 0x10
+    47 0000004E C3                      	ret
+    48                                  	
+    49                                  regdump:
+    50 0000004F C3                      	ret
+    51                                  sysInByte:
+    52 00000050 C3                      	ret
+    53                                  sysInWord:
+    54 00000051 C3                      	ret
+    55                                  sysInLong:
+    56 00000052 C3                      	ret
+    57                                  sysOutByte:
+    58 00000053 C3                      	ret
+    59                                  sysOutWord:
+    60 00000054 C3                      	ret
+    61                                  sysOutLong:
+    62 00000055 C3                      	ret
+    63                                  sysInWordString:
+    64 00000056 C3                      	ret
+    65                                  sysInLongString:
+    66 00000057 C3                      	ret
+    67                                  sysOutWordString:
+    68 00000058 C3                      	ret
+    69                                  sysOutLongString:
+    70 00000059 C3                      	ret
+    71                                  KeyboardISR:
+    72 0000005A C3                      	ret
+    73                                  MouseISR:
+    74 0000005B C3                      	ret
+    75                                  SerialISR:
+    76 0000005C C3                      	ret
+    77                                  	
+    78                                  loop:
+    79 0000005D F4                          hlt
+    80 0000005E E9FCFF                      jmp loop
+    81                                  
+    82 00000061 00<rept>                	times 510-($-$$) db 0
+    83 000001FE 55AA                    	db 0x55, 0xaa
+    84                                  	

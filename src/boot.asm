@@ -9,6 +9,12 @@ start:
 	cli
 	
 	;set up stack
+	mov ax,0x0000
+	mov ss,ax
+	mov ax,0x7c00
+	mov sp,ax
+	mov ax,0x6c00
+	mov bp,ax
 	
 	;clear screen
 	mov ah,0x06
@@ -20,19 +26,17 @@ start:
 	int 0x10
 	
 	;show Hello World!
-	push 0x0000
-	push msgstr
-	push 0x000c
+	mov ax, 0x0000
+	mov es, ax
+	mov bp, msgstr
+	mov es, ax
+	mov cx, 0x000c
 	call showstring
 	
 	jmp loop
 	
 ;show string   ax= str base address ; bp= str offset address cx=char num
 showstring:
-	pop cx
-	pop bp
-	pop ax
-	mov es,ax
 	mov ah,0x13
 	mov al,0x01
 	mov bh,0x00
@@ -43,7 +47,7 @@ showstring:
 	
 regdump:
 	ret
-sysInByte£º
+sysInByte:
 	ret
 sysInWord:
 	ret
@@ -69,6 +73,7 @@ MouseISR:
 	ret
 SerialISR:
 	ret
+	
 loop:
     hlt
     jmp loop
